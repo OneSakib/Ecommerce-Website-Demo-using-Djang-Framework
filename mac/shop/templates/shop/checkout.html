@@ -1,0 +1,85 @@
+{% extends 'shop/basic.html' %}
+{% block title  %} About Us {% endblock %}
+
+
+{% block css %}
+.about
+{
+text-align:center;
+}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="col my-4">
+        <h2>Step 1. - My Awesome Cart Experess Checkout your Cart Items..</h2>
+        <ol class="list-group list-group-numbered my-4">
+            <li class="list-group-item d-flex justify-content-between align-items-start" id="items">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">Subheading</div>
+                </div>
+                <span class="badge bg-primary rounded-pill">14</span>
+            </li>
+        </ol>
+    </div>
+    <div class="col my4">
+        <h2>Step 2. - Enter Other Details..</h2>
+        <form class="row g-3">
+            <div class="col-md-6">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name">
+            </div>
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email">
+            </div>
+            <div class="col-12">
+                <label for="Address1" class="form-label">Address</label>
+                <input type="text" class="form-control" id="Address1" placeholder="1234 Main St">
+            </div>
+            <div class="col-12">
+                <label for="Address2" class="form-label">Address 2</label>
+                <input type="text" class="form-control" id="Address2" placeholder="Apartment, studio, or floor">
+            </div>
+            <div class="col-md-6">
+                <label for="City" class="form-label">City</label>
+                <input type="text" class="form-control" id="City">
+            </div>
+            <div class="col-md-4">
+                <label for="State" class="form-label">State</label>
+                <input type="text" class="form-control" id="State">
+            </div>
+            <div class="col-md-2">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="tel" class="form-control" id="phone">
+            </div>
+            <div class="col-md-2">
+                <label for="Zip" class="form-label">Zip</label>
+                <input type="number" class="form-control" id="Zip">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Place</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block js %}
+<script>
+    if(localStorage.getItem('cart')==null)
+    {
+        var cart={};
+    }
+    else
+    {
+        cart=JSON.parse(localStorage.getItem('cart'));
+        for(var item in cart)
+        {
+            let name=cart[item][1];
+            let qty=cart[item][0]
+            mystr= '<div className="ms-2 me-auto"><div className="fw-bold">{name}</div></div><span className="badge bg-primary rounded-pill">{qty}</span>'
+        }
+    }
+</script>
+{% endblock %}
