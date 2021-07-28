@@ -12,13 +12,7 @@ text-align:center;
 <div class="container">
     <div class="col my-4">
         <h2>Step 1. - My Awesome Cart Experess Checkout your Cart Items..</h2>
-        <ol class="list-group list-group-numbered my-4">
-            <li class="list-group-item d-flex justify-content-between align-items-start" id="items">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Subheading</div>
-                </div>
-                <span class="badge bg-primary rounded-pill">14</span>
-            </li>
+        <ol class="list-group list-group-numbered my-4" id="items">
         </ol>
     </div>
     <div class="col my4">
@@ -38,7 +32,8 @@ text-align:center;
             </div>
             <div class="col-12">
                 <label for="Address2" class="form-label">Address 2</label>
-                <input type="text" class="form-control" id="Address2" placeholder="Apartment, studio, or floor">
+                <input type="text" class="form-control" id="Address2"
+                       placeholder="Apartment, studio, or floor">
             </div>
             <div class="col-md-6">
                 <label for="City" class="form-label">City</label>
@@ -67,18 +62,34 @@ text-align:center;
 {% endblock %}
 {% block js %}
 <script>
-    if(localStorage.getItem('cart')==null)
-    {
-        var cart={};
+    if (localStorage.getItem('cart') == null) {
+        var cart = {};
+    } else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+        sumofCart()
+        function sumofCart() {
+            if (localStorage.length != 0) {
+                var sum = 0;
+                for (var item in cart) {
+                    sum = sum + cart[item][0];
+                    document.getElementById('cartview').innerHTML = sum;
+                }
+            } else {
+                document.getElementById('cartview').innerHTML = 0;
+            }
+        }
     }
-    else
+    if ($.isEmptyObject(cart)) {
+        mystr = "<p>Your cart is Empty, please add Some item into your cart before checking out!</p>"
+        $('#items').append(mystr);
+    }
     {
-        cart=JSON.parse(localStorage.getItem('cart'));
-        for(var item in cart)
-        {
-            let name=cart[item][1];
-            let qty=cart[item][0]
-            mystr= '<div className="ms-2 me-auto"><div className="fw-bold">{name}</div></div><span className="badge bg-primary rounded-pill">{qty}</span>'
+        for (var item in cart) {
+            let name = cart[item][1];
+            let qty = cart[item][0]
+            mystr
+                = '<li class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto"><div class="fw-bold">' + name + '</div></div><span class="badge bg-primary rounded-pill" id="qtyproduct">' + qty + '</span></li>'
+            $('#items').append(mystr);
         }
     }
 </script>
