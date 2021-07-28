@@ -3,16 +3,49 @@
 
 
 {% block css %}
-    .about
-{
-    text-align:center;
-}
 {% endblock %}
 {% block body %}
-<h1 class="about">
-    This is Tracker page
-</h1>
-
-
-
+<div class="container">
+    <div class="col my-4">
+        <h4>Enter Your Order Id and Email Address to track your Order</h4>
+        <form class="row g-3" method="post" action="#" id="trackerform">{% csrf_token %}
+            <div class="col-md-6">
+                <label for="orderid" class="form-label">Order Id</label>
+                <input type="number" class="form-control" id="orderid" name="orderid">
+            </div>
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Track Order</button>
+            </div>
+        </form>
+    </div>
+    <div class="col my4" id="items">
+        <h2>Your Order Status...</h2>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    $('#trackerform').submit(function (event) {
+        $('#items').empty();
+        var formdata = {
+            'orderid': $('input[name=orderid]').val(),
+            'email': $('input[name=email]').val(),
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/shop/tracker/',
+            data: formdata,
+            encode: true
+        })
+            .done(function (data) {
+                console.log(data)
+            });
+        event.preventDefault();
+    });
+</script>
 {% endblock %}

@@ -30,3 +30,10 @@
     </form>
 </div>
 {% endblock %}
+{% block js %}
+<script>
+    {% if thank %}
+        alert("You Have Succeddfully Entered You Details Congratulations !...");
+    {% endif %}
+</script>
+{% endblock %}

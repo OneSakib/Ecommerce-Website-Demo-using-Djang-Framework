@@ -25,3 +25,29 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.c_name
+
+
+# crete Database Entry for Orders
+class Orders(models.Model):
+    order_id = models.AutoField(primary_key=True)
+    json_item = models.CharField(max_length=5000)
+    name = models.CharField(max_length=50)
+    email = models.CharField(max_length=100, default="name@name.domain")
+    address = models.CharField(max_length=300)
+    city = models.CharField(max_length=200)
+    state = models.CharField(max_length=300)
+    phone = models.IntegerField()
+    zip_code = models.IntegerField()
+
+    def __str__(self):
+        return self.name
+
+
+class OrderUpdate(models.Model):
+    update_id = models.AutoField(primary_key=True)
+    order_id = models.IntegerField(default="")
+    update_desc = models.CharField(max_length=5000)
+    timestamp = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.update_desc[0:7] + " ......"

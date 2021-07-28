@@ -162,7 +162,6 @@ max-height:100%;
         updatePopover(cart)
         sumofCart();
     });
-
     // Sum of  cart function
 
     function sumofCart() {
@@ -225,4 +224,7 @@ max-height:100%;
 
 </script>
 
+{% endblock %}
+{% block clearcart %}
+ <button class="btn btn-danger" style="width:100px; height: 47px;" onclick="clearcart();">Clear Cart</button>
 {% endblock %}

@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 
 def index(request):
-    return HttpResponse("<h1 style='text-align:center';>Hello Welcome to this Website</>")
+    return render(request,'index.html')
