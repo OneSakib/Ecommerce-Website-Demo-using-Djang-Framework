@@ -1,0 +1,55 @@
+{% extends 'blog/basic.html' %}
+{% block title  %} My Blog  {% endblock %}
+
+
+{% block css %}
+
+{% endblock %}
+{% block body %}
+<div class="container mt-4">
+    <div class="row g-5">
+        <div class="col-md-8">
+            <article class="blog-post">
+                <h1 class="blog-post-title">{{post.title}}</h1>
+                <div class="p-md-2 mb-0">
+                    <img src="/media/{{post.thumbnails}}" class="img-fluid">
+                </div>
+                <p class="blog-post-meta">{{post.pub_date}}</p>
+                <div class="fb-like" data-href="http://127.0.0.1:8000/blog/blogpost/'{{post.post_id}}" data-width=""
+                     data-layout="button_count" data-action="like" data-size="large" data-share="true"></div>
+                <h2>{{post.head0}}</h2>
+                <blockquote class="blockquote">
+                    <p>{{post.chead0}}</p>
+                </blockquote>
+                <h2>{{post.head1}}</h2>
+                <blockquote class="blockquote">
+                    <p>{{post.chead1}}</p>
+                </blockquote>
+                <h2>{{post.head2}}</h2>
+                <blockquote class="blockquote">
+                    <p>{{post.chead2}}</p>
+                </blockquote>
+            </article>
+            <div class="fb-comments" data-href="http://127.0.0.1:8000/blog/blogpost/{{post.post_id}}" data-width=""
+                 data-numposts="5"></div>
+            <nav class="blog-pagination" aria-label="Pagination">
+                <a class="btn btn-outline-primary" href="#">Older</a>
+                <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
+            </nav>
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="position-sticky" style="top: 2rem;">
+                <div class="p-4 mb-3 bg-light rounded">
+                    <h4 class="fst-italic">About</h4>
+                    <p class="mb-0">My Awesome Blog is Start as a Small Blog Personal and non personal content here
+                        You can add new Blog to this Blog And Famous This So You Can try This
+                        This is Free Its Use not Fees So You Can add new Features and use This
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -7,11 +7,13 @@
 {% block body %}
 <div class="container">
     <div class="col my-4">
+        <button type="button" class="btn btn-success ms-6 float-end " id="printbtn" onclick="window.print()">Print
+        </button>
         <h4>Enter Your Order Id and Email Address to track your Order</h4>
         <form class="row g-3" method="post" action="#" id="trackerform">{% csrf_token %}
             <div class="col-md-6">
                 <label for="orderid" class="form-label">Order Id</label>
-                <input type="number" class="form-control" id="orderid" name="orderid">
+                <input type="number" class="form-control   " id="orderid" name="orderid">
             </div>
             <div class="col-md-6">
                 <label for="email" class="form-label">Email</label>
@@ -22,13 +24,21 @@
             </div>
         </form>
     </div>
-    <div class="col my4" id="items">
-        <h2>Your Order Status...</h2>
+    <h2>Your Order Status...</h2>
+    <div class="col my-4" id="items">
+
+    </div>
+    <h2>Your Order Details...</h2>
+    <div class="col my-4" id="citems">
+
     </div>
 </div>
 {% endblock %}
 {% block js %}
 <script>
+    document.getElementById('printbtn').style.display = 'none';
+    var totalprice = 0;
+    var sum = 0;
     $('#trackerform').submit(function (event) {
         $('#items').empty();
         var formdata = {
@@ -38,13 +48,54 @@
         };
         $.ajax({
             type: 'POST',
-            url: '/shop/tracker/',
+            url: '/shop/tracker',
             data: formdata,
             encode: true
         })
             .done(function (data) {
+
+                data = JSON.parse(data);
                 console.log(data)
+                if (data['status'] == 'success') {
+                    updates = data['updates'];
+                    for (i = 0; i < updates.length; i++) {
+                        let text = updates[i]['text'];
+                        let time = updates[i]['time'];
+                        mystr = '<li class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto"><div class="fw-bold">' + text + '</div></div><span class="badge bg-primary rounded-pill" id="qtyproduct">' + time + '</span></li>'
+                        $('#items').append(mystr);
+                    }
+                    // Fill in order details
+                    cart = JSON.parse(data['json_item']);
+                    $('#citems').empty();
+                    sum = 0;
+                    totalprice = 0;
+                    for (var item in cart) {
+                        if (cart[item][0] > 0) {
+                            let qty = cart[item][0]
+                            let name = cart[item][1];
+                            let itemprice = cart[item][2]
+                            sum = sum + qty;
+                            totalprice = totalprice + qty * itemprice;
+                            mystr
+                                = '<li class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto"><div class="fw-bold">' + name + '</div></div><span class="badge bg-primary rounded-pill" id="qtyproduct">' + qty + '</span></li>'
+                            $('#citems').append(mystr);
+                        }
+                    }
+                    mystr
+                        = '<li class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto"><div class="fw-bold"> <strong> Total Price is :' + totalprice + '</strong></div></div><span class="badge bg-primary rounded-pill" id="qtyproduct"><strong>Sum of Total Product is: ' + sum + '</strong></span></li>'
+                    $('#citems').append(mystr)
+                    document.getElementById('printbtn').style.display = 'block';
+
+                } else {
+                    $('#citems').empty();
+                    mystr = '<li class="list-group-item d-flex justify-content-between align-items-start"><div class=" alert alert-danger">Sorry Not data Found Please Enter Right Details </div></li>'
+                    $('#items').append(mystr);
+                    $('#citems').append(mystr);
+                }
+
+
             });
+
         event.preventDefault();
     });
 </script>

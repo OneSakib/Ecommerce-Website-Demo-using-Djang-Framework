@@ -24,6 +24,6 @@ urlpatterns = [
     path("proview/<int:myid>", views.proview, name="product View"),
     path("contact", views.contact, name="Contact us"),
     path("about", views.about, name="About us"),
-    path('buy',views.buy,name="Buy Now")
+    path('search/', views.search, name="Search")
 
 ]

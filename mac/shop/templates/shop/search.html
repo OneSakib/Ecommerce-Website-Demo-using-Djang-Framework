@@ -1,6 +1,7 @@
 {% extends 'shop/basic.html' %}
 
-{% block title %}Home Page{% endblock %}
+{% block title %}Search
+<Page></Page>{% endblock %}
 {% block css %}
 
 .container {
@@ -159,7 +160,6 @@ max-height:100%;
     $('.divpr').on('click', 'button.cart', function () {
         var idstr = this.id.toString();
         if (cart[idstr] != undefined) {
-            console.log("if")
             qty = cart[idstr][0] + 0;
             name = document.getElementById('name' + idstr).innerText;
             price = document.getElementById('price' + idstr).innerHTML;
@@ -228,7 +228,8 @@ max-height:100%;
 
             }
         }
-        popstr = popstr + "</div><a href='checkout' class='btn btn-primary' id='checkcart'>Check Cart</a>"
+
+        popstr = popstr + "</div><a href='/shop/checkout' class='btn btn-primary' id='checkcart'>Check Cart</a>"
         document.getElementById('popcart').setAttribute('data-bs-content', popstr)
     }
 
@@ -237,8 +238,6 @@ max-height:100%;
     var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
         return new bootstrap.Popover(popoverTriggerEl)
     })
-
-
 </script>
 
 {% endblock %}

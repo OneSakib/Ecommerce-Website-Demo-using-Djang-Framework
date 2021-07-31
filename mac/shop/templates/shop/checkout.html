@@ -54,6 +54,7 @@ text-align:center;
             </div>
             <div class="col-md-6">
                 <input type="hidden" id="json_item" name="json_item">
+                <input type="hidden" id="amount" name="amount">
             </div>
             <div class="col-12">
                 <button type="submit" class="btn btn-primary">Place</button>
@@ -70,39 +71,38 @@ text-align:center;
         var cart = {};
     } else {
         cart = JSON.parse(localStorage.getItem('cart'));
-        sumofCart()
-
-        function sumofCart() {
-            if (localStorage.length != 0) {
-                var sum = 0;
-                for (var item in cart) {
-                    sum = sum + cart[item][0];
-                    document.getElementById('cartview').innerHTML = sum;
-                }
-            } else {
-                document.getElementById('cartview').innerHTML = 0;
-            }
-        }
     }
+    var totalprice = 0;
+    var sum = 0;
     if ($.isEmptyObject(cart)) {
         mystr = "<p>Your cart is Empty, please add Some item into your cart before checking out!</p>"
         $('#items').append(mystr);
-    }
-    {
+    } else {
         for (var item in cart) {
-            let name = cart[item][1];
-            let qty = cart[item][0]
-            mystr
-                = '<li class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto"><div class="fw-bold">' + name + '</div></div><span class="badge bg-primary rounded-pill" id="qtyproduct">' + qty + '</span></li>'
-            $('#items').append(mystr);
+            if (cart[item][0] > 0) {
+                let name = cart[item][1];
+                let qty = cart[item][0]
+                let itemprice = cart[item][2]
+                sum = sum + qty;
+                totalprice = totalprice + qty * itemprice;
+                mystr = '<li class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto"><div class="fw-bold">' + name + '</div></div><span class="badge bg-primary rounded-pill" id="qtyproduct">' + qty + '</span></li>'
+                $('#items').append(mystr);
+            }
         }
+        mystr = '<span class="badge bg-primary rounded-pill" > Yout Total Product is :--' + sum +
+            '</span>Yout Total Price is :--<span class="badge bg-primary rounded-pill mt-2" id="totalprice"> ' +
+            totalprice +
+            '</span><div><p class="mx-5 my-2"> Thanks for using My Awesome Cart.. Enter Your Cart Details below & place your order  ..............</p></div>'
+        $('#items').append(mystr);
     }
+    $('#amount').val($('#totalprice').html())
     $('#json_item').val(JSON.stringify(cart));
-
-    {% if thank %}
+    // {% if thank %}
     alert('Thank for Ordering with us . Your Order is {{id}} Use it to Track Your Order usign Our Order Tracker');
     localStorage.clear();
     document.location = "/shop";
-    {% endif %}
+    //{% endif %}
+
+
 </script>
 {% endblock %}

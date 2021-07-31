@@ -1,30 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import BlogPost
+
+
 # Create your views here.
 def index(request):
-    return render(request,'blog/index.html')
+    post = BlogPost.objects.all()
+    return render(request, 'blog/index.html', {'post': post})
 
 
-def about(request):
-    return render(request,'blog/about.html')
-
-
-def contact(request):
-    return render(request,'blog/contact.html')
-
-
-def tracker(request):
-    return render(request,'blog/tracker.html')
-
-
-def search(request):
-    return render(request,'blog/search.html')
-
-
-def productview(request):
-    return  render(request,'blog/productview.html')
-
-
-def checkout(request):
-    return render(request,'blog/checkout.html')
-
+def blogpost(request, myid):
+    post = BlogPost.objects.filter(post_id=myid)[0]
+    return render(request, 'blog/blogpost.html', {'post': post})
